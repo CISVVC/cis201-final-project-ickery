@@ -8,15 +8,33 @@ Concordance::Concordance(std::string filename)
 void Concordance::parse()
 {
     std::ifstream file(m_filename.c_str());
-    while(!file.eof())
+    std::string sentence;
+    int line_count = 1;
+    // Loops through each line in the text
+    while(std::getline(file, sentence))
     {
-        std::string word = next_word(file);
-
-        // implement the rest of this function
-        // This is just to see the words as they are printed out.
-        // The word may have some puncuation attached to it, this
-        // will be ok for this example.
-        std::cout << word << std::endl;
+        std::istringstream stream(sentence);
+        std::string word;
+        // Loops through each word in line
+        while(stream >> word)
+        {
+          int word_index = find_word(word);
+          // If word was found, add count and line to existing word. 
+          if(word_index != -1)
+          {
+                m_word_stats[word_index].add_count(1);
+                m_word_stats[word_index].add_line(line_count);
+          }
+          // If word was not found, create new word and place it into word_stats
+          else
+          {
+                Word new_word(word);
+                new_word.add_line(line_count);
+                m_word_stats.push_back(new_word);
+          }
+          std::cout << word << std::endl;
+        }
+        line_count += 1;
     }
 }
 
@@ -65,10 +83,19 @@ std::string Concordance::next_word(std::ifstream& input)
 
 int Concordance::find_word(std::string word)
 {
-    // search the Word vector, and return the index in the vector.
+    for(int i = 0; i < m_word_stats.size(); i++)
+    {
+        if(m_word_stats[i].get_word() == word){ return i;}
+    }
+    return -1;
 }
 
 void Concordance::print()
 {
-    // print out the concordance
+    for(int i = 0; i < m_word_stats.size(); i++)
+    {
+        std::cout << m_word_stats[i].get_word() << " : " << m_word_stats[i].get_count() << " : ";
+        m_word_stats[i].print_lines();
+        std::cout << std::endl;
+    }
 }
