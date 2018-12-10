@@ -1,3 +1,10 @@
+/*
+File: grade.h
+Author: David Serrano
+Email: davids2016@student.vvc.edu
+Description: header file for word class
+*/
+
 #ifndef WORD_H
 #define WORD_H
 #include<vector>

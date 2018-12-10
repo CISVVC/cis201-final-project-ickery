@@ -1,5 +1,16 @@
+/*
+File:concordance.cpp
+Author: David Serrano
+Email: davids2016@student.vvc.edu   
+Description: .cpp file for concordance class
+*/
+
+
 #include "concordance.h"
 
+
+// Construct a concordance using information from filename
+// Param filename - file to use
 Concordance::Concordance(std::string filename)
 {
     m_filename = filename;
@@ -36,49 +47,6 @@ void Concordance::parse()
         }
         line_count += 1;
     }
-}
-
-bool Concordance::is_whitespace(char c)
-{
-  return (c == ' ' || c == '\n' ||  c == '\t');
-}
-
-void Concordance::eat_whitespace(std::ifstream& input)
-{
-    for(;;)
-    {
-        char c;
-        input.get(c);
-        if(input.eof())
-            break;
-        if(!is_whitespace(c))
-        {
-            input.putback(c); // this will put the character back on the input stream
-            break;
-        }
-    }
-}
-
-std::string Concordance::next_word(std::ifstream& input)
-{
-    std::string word;
-    for(;;)
-    {
-        char c;
-        input.get(c);
-        if(input.eof())
-            break;
-        if(!is_whitespace(c))
-        {
-            word += c;
-        }
-        else
-        {
-            eat_whitespace(input);
-            break;
-        }
-    }
-    return word;
 }
 
 int Concordance::find_word(std::string word)
