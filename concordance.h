@@ -12,6 +12,7 @@ Description: header file for concordance
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <cctype>
 class Concordance
 {
 public:
